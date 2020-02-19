@@ -18,8 +18,10 @@ function fetchNext(el, endpoint, insertCallback) {
     response.json().then(function insertEntries(entries) {
       nextPage += 1;
       insertCallback(entries);
-      if (entries.length === 0) {
-        document.getElementById("loading-articles").style.display = "none";
+      const loadingArticles = document.getElementById("loading-articles");
+
+      if (entries.length === 0 && loadingArticles) {
+        loadingArticles.style.display = "none";
         done = true;
       }
     });
@@ -266,8 +268,10 @@ function checkIfNearBottomOfPage() {
   var publicSearchKey = '<%= ALGOLIASEARCH_PUBLIC_SEARCH_ONLY_KEY %>';
   client = algoliasearch('<%= ApplicationConfig["ALGOLIASEARCH_APPLICATION_ID"] %>', publicSearchKey);
 
-  if (document.getElementsByClassName("single-article").length < 2 || window.location.search.indexOf("q=") > -1 ) {
-    document.getElementById("loading-articles").style.display = "none";
+  const loadingArticles = document.getElementById("loading-articles");
+
+  if ((document.getElementsByClassName("single-article").length < 2 || window.location.search.indexOf("q=") > -1) && loadingArticles) {
+    loadingArticles.style.display = "none";
     done = true;
   } else {
     document.getElementById("loading-articles").style.display = "block";

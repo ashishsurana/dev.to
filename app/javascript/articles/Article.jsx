@@ -49,12 +49,14 @@ export const Article = ({
       <OrganizationHeadline organization={article.organization} />
       <div className="small-pic">
         <a
-          href={`/${article.user.username}`}
+          href={`/${(article.user || article.cached_user.table).username}`}
           className="small-pic-link-wrapper"
         >
           <img
-            src={article.user.profile_image_90}
-            alt={`${article.user.username} profile`}
+            src={(article.user || article.cached_user.table).profile_image_90}
+            alt={`${
+              (article.user || article.cached_user.table).username
+            } profile`}
             loading="lazy"
           />
         </a>
@@ -73,11 +75,11 @@ export const Article = ({
         </div>
       </a>
       <h4>
-        <a href={`/${article.user.username}`}>
+        <a href={`/${(article.user || article.cached_user.table).username}`}>
           {filterXSS(
             article.class_name === 'User'
-              ? article.user.username
-              : article.user.name,
+              ? (article.user || article.cached_user.table).username
+              : (article.user || article.cached_user.table).name,
           )}
           {article.readable_publish_date ? '・' : ''}
           {article.readable_publish_date && (
